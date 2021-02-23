@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CicdtemplateApplication {
+public class CICDPipelineApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CicdtemplateApplication.class, args);
+		SpringApplication.run(CICDPipelineApplication.class, args);
 	}
 
 }

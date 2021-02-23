@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cicd.pipeline</groupId>
-	<artifactId>cicdtemplate</artifactId>
+	<artifactId>cicd-pipeline</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cicdtemplate</name>
+	<name>cicd-pipeline</name>
 	<description>Demo project for Spring Boot with CICD</description>
 	<properties>
 		<java.version>1.8</java.version>
