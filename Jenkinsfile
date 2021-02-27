@@ -8,7 +8,7 @@ pipeline{
         stage('Build') {
             steps {
                 echo 'Steps to Build the code..'
-                sh 'mvn -Dmaven.test.failure.ignore=true clean install'
+                sh 'mvn clean install -DskipTests'
             }
         }
 
