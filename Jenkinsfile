@@ -41,8 +41,8 @@ pipeline{
                     docker.withRegistry('https://registry.hub.docker.com/', 'docker_hub_login')
                     dockerImage.push()
                 }
+                echo 'Docker Image pushed to Registry..'
             }
-            echo 'Docker Image pushed to Registry..'
         }
 
         stage('Deploy'){
