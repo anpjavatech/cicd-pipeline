@@ -22,6 +22,25 @@ pipeline{
         stage('Build Docker Image'){
             steps{
                 echo 'Building docker image started..'
+                script{
+                    app = docker.build("anpks/cicdpipeline")
+                    app.inside{
+                        sh 'echo $(curl localhost:8080)'
+                    }
+                }
+            }
+        }
+
+        stage('Image to Docker Hub'){
+            when{
+                branch 'main'
+            }
+            steps{
+                script{
+                    docker.withRegistry('https://hub.docker.com/', 'docker_hub_login')
+                    app.push('${env.BUILD_NUMBER}')
+                    app.push('latest')
+                }
             }
         }
 
