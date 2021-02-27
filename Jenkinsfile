@@ -31,7 +31,9 @@ pipeline{
 
         stage('Image to Docker Hub'){
             when{
-                branch 'main'
+                expression{
+                    BRANCH_NAME == 'main'
+                }
             }
             steps{
                 script{
