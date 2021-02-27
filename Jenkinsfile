@@ -23,10 +23,7 @@ pipeline{
             steps{
                 echo 'Building docker image started..'
                 script{
-                    app = docker.build("anpks/cicdpipeline")
-                    app.inside{
-                        sh 'echo $(curl localhost:8080)'
-                    }
+                    dockerImage = docker.build "anpks/cicdpipeline:$BUILD_NUMBER"
                 }
             }
         }
@@ -38,8 +35,7 @@ pipeline{
             steps{
                 script{
                     docker.withRegistry('https://hub.docker.com/', 'docker_hub_login')
-                    app.push('${env.BUILD_NUMBER}')
-                    app.push('latest')
+                    dockerImage.push()
                 }
             }
         }
