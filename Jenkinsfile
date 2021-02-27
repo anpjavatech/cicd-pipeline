@@ -39,6 +39,7 @@ pipeline{
                 echo 'Ready to push the image to docker hub..'
                 script{
                     docker.withRegistry('https://registry.hub.docker.com/', 'docker_hub_login'){
+                        docker login -u 'anpks' -p 'Anpks@1987'
                         dockerImage.push()
                     }
                 }
