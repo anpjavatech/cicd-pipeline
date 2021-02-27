@@ -12,15 +12,6 @@ pipeline{
             }
         }
 
-        post{
-            failure{
-                echo 'Build Failed !!!..'
-            }
-            success{
-                echo 'Build is Successful !!..'
-            }
-        }
-
         stage('Test'){
             steps{
                 echo 'Step to Test the code..'
@@ -28,37 +19,9 @@ pipeline{
             }
         }
 
-        post {
-             always {
-                echo 'This will always run'
-             }
-             success {
-                echo 'This will run only if successful'
-             }
-             failure {
-                echo 'This will run only if failed'
-             }
-             unstable {
-                echo 'This will run only if the run was marked as unstable'
-             }
-             changed {
-                echo 'This will run only if the state of the Pipeline has changed'
-                echo 'For example, if the Pipeline was previously failing but is now successful'
-             }
-        }
-
         stage('Build Docker Image'){
             steps{
                 echo 'Building docker image started..'
-            }
-        }
-
-        post{
-            success{
-                echo 'Building of Docker image is successful !!..'
-            }
-            failure{
-                echo 'Building of Docker Image Failed !!!!!!..'
             }
         }
 
@@ -68,14 +31,25 @@ pipeline{
             }
         }
 
-        post{
-             success{
-                echo 'Building of Docker image is successful !!..'
-             }
-             failure{
-                echo 'Building of Docker Image Failed !!!!!!..'
-             }
-        }
+    }
 
+    //Post section is for the pipeline and not for the stages.
+    post {
+         always {
+            echo 'This will always run'
+         }
+         success {
+            echo 'This will run only if successful'
+         }
+         failure {
+            echo 'This will run only if failed'
+         }
+         unstable {
+            echo 'This will run only if the run was marked as unstable'
+         }
+         changed {
+            echo 'This will run only if the state of the Pipeline has changed'
+            echo 'For example, if the Pipeline was previously failing but is now successful'
+         }
     }
 }
