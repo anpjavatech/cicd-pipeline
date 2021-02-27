@@ -25,6 +25,7 @@ pipeline{
                 script{
                     dockerImage = docker.build "anpks/cicdpipeline:$BUILD_NUMBER"
                 }
+                echo 'Building docker image completed..'
             }
         }
 
@@ -34,7 +35,7 @@ pipeline{
             }
             steps{
                 script{
-                    docker.withRegistry('https://hub.docker.com/', 'docker_hub_login')
+                    docker.withRegistry("https://hub.docker.com/", "docker_hub_login")
                     dockerImage.push()
                 }
             }
