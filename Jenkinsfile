@@ -23,7 +23,7 @@ pipeline{
             steps{
                 echo 'Building docker image started..'
                 script{
-                    dockerImage = docker.build "anpks/cicdpipeline:$BUILD_NUMBER"
+                    dockerImage = docker.build "anpks/anpksdockerhub/cicdpipeline:$BUILD_NUMBER"
                 }
                 echo 'Building docker image completed..'
             }
@@ -38,7 +38,6 @@ pipeline{
             steps{
                 echo 'Ready to push the image to docker hub..'
                 script{
-                //docker.withServer('http://13.233.26.57:8080/')
                     docker.withRegistry('https://registry.hub.docker.com/', 'docker_hub_login'){
                         dockerImage.push()
                     }
