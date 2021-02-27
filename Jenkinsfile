@@ -38,11 +38,11 @@ pipeline{
             steps{
                 echo 'Ready to push the image to docker hub..'
                 script{
-                //docker.withServer('http://13.233.26.57:8080/'){
+                //docker.withServer('http://13.233.26.57:8080/')
                     docker.withRegistry('https://registry.hub.docker.com/', 'docker_hub_login'){
                         dockerImage.push()
                     }
-                //}
+                }
                 echo 'Docker Image pushed to Registry..'
             }
         }
