@@ -35,12 +35,14 @@ pipeline{
                     BRANCH_NAME == 'main'
                 }
             }
+            echo 'Ready to push the image to docker hub..'
             steps{
                 script{
                     docker.withRegistry('https://registry.hub.docker.com/', 'docker_hub_login')
                     dockerImage.push()
                 }
             }
+            echo 'Docker Image pushed to Registry..'
         }
 
         stage('Deploy'){
