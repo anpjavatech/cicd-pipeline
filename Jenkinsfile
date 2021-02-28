@@ -23,7 +23,7 @@ pipeline{
             steps{
                 echo 'Building docker image started..'
                 script{
-                    dockerImage = docker.build "anpks/anpksdockerhub:$BUILD_NUMBER"
+                    dockerImage = docker.build "anpks/anpksdockerhub:cicdpipeline-$BUILD_NUMBER"
                 }
                 echo 'Building docker image completed..'
             }
@@ -46,9 +46,21 @@ pipeline{
             }
         }
 
-        stage('Deploy'){
+        stage('Deploy to Dev'){
             steps{
                 echo 'Steps to Deploy the code...'
+                withCredentials([usernamePassword(credentialsId:'dev_app_server_login', usernameVariable:'username', passwordVariable:'password')]){
+                    script{
+                        sh "sshpass -p '$password' -v ssh -o StrictHostKeyChecking=no $username@$dev_app_server \"docker pull anpks/anpksdockerhub:cicdpipeline-$BUILD_NUMBER\""
+                        try{
+                            sh "sshpass -p '$password' -v ssh -o StrictHostKeyChecking=no $username@$dev_app_server \"docker stop cicdpipeline\""
+                            sh "sshpass -p '$password' -v ssh -o StrictHostKeyChecking=no $username@$dev_app_server \"docker rm cicdpipeline\""
+                        }catch(err){
+                            echo: 'caught error: $err'
+                        }
+                        sh "sshpass -p '$password' -v ssh -o StrictHostKeyChecking=no $username@$dev_app_server \"docker run --restart always --name cicdpipeline -p 8080:8080 -d anpks/anpksdockerhub:cicdpipeline-$BUILD_NUMBER\""
+                    }
+                }
             }
         }
 
@@ -61,10 +73,10 @@ pipeline{
             cleanWs()
          }
          success {
-            echo 'This will run only if successful'
+            echo 'Initial Pipeline is successful !!!...'
          }
          failure {
-            echo 'This will run only if failed'
+            echo 'Initial Pipeline Failed !!!...'
          }
          unstable {
             echo 'This will run only if the run was marked as unstable'
