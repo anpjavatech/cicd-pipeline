@@ -5,17 +5,17 @@ pipeline{
     }
 
     stages {
-        stage('Build') {
+        stage('Maven Build') {
             steps {
-                echo 'Steps to Build the code..'
+                echo 'Step to Build the code..'
                 sh 'mvn clean install -DskipTests'
             }
         }
 
-        stage('Test'){
+        stage('Test with Coverage - Sonar'){
             steps{
                 echo 'Step to Test the code..'
-                sh 'mvn test'
+                sh 'mvn clean install sonar:sonar'
             }
         }
 
