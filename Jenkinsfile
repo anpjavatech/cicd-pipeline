@@ -12,10 +12,10 @@ pipeline{
             }
         }
 
-        stage('Test with Coverage - Sonar'){
+        stage('Maven Test'){
             steps{
                 echo 'Step to Test the code..'
-                sh 'mvn clean install sonar:sonar'
+                sh 'mvn test'
             }
         }
 
@@ -57,7 +57,8 @@ pipeline{
     //Post section is for the pipeline and not for the stages.
     post {
          always {
-            echo 'This will always run'
+            echo 'To clean the workspace..'
+            cleanWs()
          }
          success {
             echo 'This will run only if successful'
