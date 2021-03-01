@@ -51,7 +51,9 @@ pipeline{
                 echo 'Steps to Deploy the code...'
                 withCredentials([usernamePassword(credentialsId:'dev_app_server_login', usernameVariable:'username', passwordVariable:'password')]){
                     script{
-                        sh "sshpass -p '$password' -v ssh -o StrictHostKeyChecking=no $username@$dev_app_server \"docker pull anpks/anpksdockerhub:cicdpipeline-$BUILD_NUMBER\""
+                        docker.withRegistry('https://registry.hub.docker.com/', 'docker_hub_login'){
+                            sh "sshpass -p '$password' -v ssh -o StrictHostKeyChecking=no $username@$dev_app_server \"docker pull anpks/anpksdockerhub:cicdpipeline-$BUILD_NUMBER\""
+                        }
                         try{
                             sh "sshpass -p '$password' -v ssh -o StrictHostKeyChecking=no $username@$dev_app_server \"docker stop cicdpipeline\""
                             sh "sshpass -p '$password' -v ssh -o StrictHostKeyChecking=no $username@$dev_app_server \"docker rm cicdpipeline\""
