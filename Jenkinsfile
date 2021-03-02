@@ -49,12 +49,12 @@ pipeline{
         stage('Deploy to Dev'){
             steps{
                 echo 'Steps to Deploy the code...'
-                withCredentials([usernamePassword(credentialsId:'dev_app_server_login', usernameVariable:'username', passwordVariable:'password')]){
+                withCredentials([usernamePassword(credentialsId:'dev_app_server_login', usernameVariable:'username', passwordVariable:'password'),
+                usernamePassword(credentialsId:'docker_hub_login', usernameVariable:'docker_username', passwordVariable:'docker_password')]){
                     script{
-                        environment {
-                            DOCKER_HUB_CREDS = credentials('docker_hub_login')
-                        }
-                        sh "sshpass -p '$password' -v ssh -o StrictHostKeyChecking=no $username@$dev_app_server \"docker login -u $DOCKER_HUB_CREDS_USR -p $DOCKER_HUB_CREDS_PSW\""
+
+                        echo 'username : '$docker_username
+                        sh "sshpass -p '$password' -v ssh -o StrictHostKeyChecking=no $username@$dev_app_server \"docker login -u $docker_username -p $docker_password\""
                         sh "sshpass -p '$password' -v ssh -o StrictHostKeyChecking=no $username@$dev_app_server \"docker pull anpks/anpksdockerhub:cicdpipeline-$BUILD_NUMBER\""
                         try{
                             sh "sshpass -p '$password' -v ssh -o StrictHostKeyChecking=no $username@$dev_app_server \"docker stop cicdpipeline\""
