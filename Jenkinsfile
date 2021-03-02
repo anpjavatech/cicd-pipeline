@@ -12,12 +12,12 @@ pipeline{
             }
         }
 
-        stage('Maven Test'){
-            steps{
-                echo 'Step to Test the code..'
-                sh 'mvn test'
-            }
-        }
+        //stage('Maven Test'){
+            //steps{
+               // echo 'Step to Test the code..'
+               // sh 'mvn test'
+           // }
+       // }
 
         stage('Build Docker Image'){
             steps{
