@@ -26,7 +26,7 @@ pipeline{
             steps{
                 echo 'Building docker image started..'
                 script{
-                    dockerImage = docker.build "env.DOCKER_IMAGE_NAME:$BUILD_NUMBER"
+                    dockerImage = docker.build "${DOCKER_IMAGE_NAME}:$BUILD_NUMBER"
                 }
                 echo 'Building docker image completed..'
             }
