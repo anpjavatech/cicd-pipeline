@@ -1,0 +1,36 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: cicd-pipeline
+spec:
+  type: NodePort
+  selector:
+    app: cicd-pipeline
+  ports:
+    - protocol: TCP
+      port: 8080
+      nodePort: 8080
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cicd-pipeline
+  labels:
+    app: cicd-pipeline
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cicd-pipeline
+  template:
+    metadata:
+      labels:
+        app: cicd-pipeline
+    spec:
+      containers:
+        - name: cicd-pipeline
+          image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
+          ports:
+            - containerPort: 8080
