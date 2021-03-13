@@ -1,5 +1,5 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: cicd-pipeline
 spec:
@@ -9,7 +9,7 @@ spec:
   ports:
     - protocol: TCP
       port: 8080
-      nodePort: 8080
+      nodePort: 30000
 
 ---
 
